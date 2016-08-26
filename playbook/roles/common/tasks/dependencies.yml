@@ -1,0 +1,10 @@
+---
+- name: dependency softwares installation
+  apt: name={{ item }} state=present update_cache=yes
+
+  with_items:
+    - python-pip
+    - libxml2-dev
+    - libxslt1-dev
+    - python-dev
+    - git

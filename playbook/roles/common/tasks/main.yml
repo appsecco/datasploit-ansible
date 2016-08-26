@@ -1,0 +1,4 @@
+---
+- include: dependencies.yml
+- include: mongo.yml
+- include: rabbitmq.yml

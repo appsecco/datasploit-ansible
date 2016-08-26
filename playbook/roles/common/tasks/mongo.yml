@@ -1,0 +1,12 @@
+---
+- name: installing mongo db 
+  apt_key: keyserver=hkp://keyserver.ubuntu.com:80 id=EA312927 state=present
+
+- name: adding sources.list deb url for mongod
+  lineinfile: dest=/etc/apt/sources.list line="deb http://repo.mongodb.org/apt/ubuntu trusty/mongodb-org/3.2 multiverse"
+
+- name: update the cache and install mongod server
+  apt: name={{ item }} update_cache=yes state=present
+
+  with_items:
+    - mongodb-org

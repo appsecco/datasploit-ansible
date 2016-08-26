@@ -1,0 +1,9 @@
+---
+- name: datasploit project setup with ubuntu 16.04
+  hosts: all
+  remote_user: "{{ remote_user_login_name }}"
+  become: yes
+
+  roles:
+    - common
+    - datasploit

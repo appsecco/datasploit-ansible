@@ -1,0 +1,36 @@
+---
+- name: "cloning the git repo"
+  git: repo=https://github.com/upgoingstar/datasploit.git dest=/opt/datasploit
+
+- name: installing requirements.txt using pip
+  pip: requirements=/opt/datasploit/requirements.txt
+
+- name: API configuration
+  template: src=templates/config.py.j2 dest=/opt/datasploit/config.py
+  
+- name: creating directory for datasploitDb
+  file: path=/opt/datasploit/datasploitDb state=directory mode=0755
+
+- name: starting mongodb with commandline options
+  shell: mongod --fork --logpath datasploitDb/mongodb.log --dbpath datasploitDb
+  args:
+    chdir: /opt/datasploit/
+    executable: /bin/bash
+
+- name: starting the celery
+  shell: nohup C_FORCE_ROOT=root celery -A core worker -l info --concurrency 20  &
+  args:
+    chdir: /opt/datasploit/core
+    executable: /bin/bash
+
+#- name: starting the celery
+  #shell: python manage.py migrate
+  #args:
+  #  chdir: /opt/datasploit/core
+  #  executable: /bin/bash
+
+- name: starting the python server
+  shell: nohup python manage.py runserver 0.0.0.0:8000 &
+  args:
+    chdir: /opt/datasploit/core
+    executable: /bin/bash

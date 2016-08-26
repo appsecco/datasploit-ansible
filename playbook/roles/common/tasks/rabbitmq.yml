@@ -1,0 +1,13 @@
+
+- name: installing rabbitmq server
+  apt_key: url=https://www.rabbitmq.com/rabbitmq-release-signing-key.asc state=present
+- name: adding rabbitmq to sources.list
+  lineinfile: dest=/etc/apt/sources.list line="deb http://www.rabbitmq.com/debian/ testing main"
+- name: updating cache and installation
+  apt: name={{item}} update_cache=yes
+
+  with_items:
+    - rabbitmq-server
+
+  notify:
+    - start rabbitmq
