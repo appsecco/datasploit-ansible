@@ -73,7 +73,7 @@ cd datasploit-ansible
 python domainOsint.py -d <domain_name>
 ```
 
-- From next time when you are using you have to start the process using below commands
+- From next time when you are starting virtual machine start the processes using below commands
 
 ```
 cd /opt/datasploit/
